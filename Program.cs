@@ -565,7 +565,7 @@ class HeliaLoader : Form {
     static readonly byte[] EncGate = new byte[] { 116, 86, 89, 90, 80, 97, 118, 122, 12, 8, 3, 28, 8, 10, 7, 3, 13, 27, 21, 25, 25, 3, 0, 6, 30, 22 };
     static string UpdateBase => Cloak.D(EncBase);
     static string GateName => Cloak.D(EncGate);
-    const string LoaderVersion = "1.5.3";
+    const string LoaderVersion = "1.7.2";
     const int    SessionDays = 30;
     System.Threading.Mutex gate;
     string   sessionId  = "";
@@ -1089,7 +1089,7 @@ class HeliaLoader : Form {
             // de mandar para /activate — key não é código e nunca estaria em codes.
             bool pareceKey = c.StartsWith("DROPS-") || c.StartsWith("TRL-");
             if (!pareceKey) {
-                var (okC, keyC, expC, msgC) = await ActivateAsync(c);
+                var (okC, keyC, expC, msgC) = await ActivateAsync(c, name);
                 if (okC && !string.IsNullOrEmpty(keyC)) {
                     EntrarComCredencial(name, keyC);
                     return;
@@ -1097,13 +1097,13 @@ class HeliaLoader : Form {
                 // Caiu aqui: ou o código é inválido, ou o usuário colou uma key
                 // num formato inesperado. Tenta como key antes de desistir.
                 if (string.IsNullOrEmpty(msgC) || msgC.Contains("inválid") || msgC.Contains("Código")) {
-                    var (okK, msgK, expK) = await AuthAsync(c);
+                    var (okK, msgK, expK) = await AuthAsync(c, name);
                     if (okK) { EntrarComCredencial(name, c); return; }
                 }
                 RegBusy(false, string.IsNullOrEmpty(msgC) ? "Código recusado." : msgC);
                 return;
             }
-            var (ok, msg, exp) = await AuthAsync(c);
+            var (ok, msg, exp) = await AuthAsync(c, name);
             if (!ok) {
                 RegBusy(false, string.IsNullOrEmpty(msg) ? "Key recusada." : msg);
                 return;
@@ -1123,14 +1123,17 @@ class HeliaLoader : Form {
     }
 
     async void DoTrial() {
+        var name = (txRegName.Text ?? "").Trim();
+        if (name.Length < 3) { RegBusy(false, "Escolha um nome com pelo menos 3 letras."); txRegName.Focus(); return; }
         RegBusy(true);
         try {
-            var (ok, key, exp, msg) = await TrialAsync();
+            var (ok, key, exp, msg) = await TrialAsync(name);
             if (!ok || string.IsNullOrEmpty(key)) {
                 RegBusy(false, string.IsNullOrEmpty(msg) ? "Trial indisponível." : msg);
                 return;
             }
             RegBusy(false);
+            txUser.Text = name;
             txKey.Text = key;
             Log("trial gerado.");
             ShowPage(0);
@@ -1214,18 +1217,18 @@ class HeliaLoader : Form {
     // STUB OFFLINE documentado: valida localmente (user>=3, key>=4), sem rede/servidor.
     // Persiste somente user= em loader.cfg; a key nunca é gravada.
     // Auth servidor: POST {key} -> {ok, message, expires_at}. Fail-closed (sem rede = sem login).
-    async System.Threading.Tasks.Task<(bool ok, string msg, long exp)> AuthAsync(string key) {
-        var r = await PostAuth("/auth", "{\"key\":\"" + JsonEsc(key) + "\",\"hwid\":\"" + Hwid() + "\"}");
+    async System.Threading.Tasks.Task<(bool ok, string msg, long exp)> AuthAsync(string key, string user) {
+        var r = await PostAuth("/auth", "{\"key\":\"" + JsonEsc(key) + "\",\"hwid\":\"" + Hwid() + "\",\"user\":\"" + JsonEsc(user ?? "") + "\"}");
         return (r.ok, r.msg, r.exp);
     }
 
-    async System.Threading.Tasks.Task<(bool ok, string key, long exp, string msg)> ActivateAsync(string code) {
-        var r = await PostAuth("/activate", "{\"code\":\"" + JsonEsc(code) + "\"}");
+    async System.Threading.Tasks.Task<(bool ok, string key, long exp, string msg)> ActivateAsync(string code, string user) {
+        var r = await PostAuth("/activate", "{\"code\":\"" + JsonEsc(code) + "\",\"user\":\"" + JsonEsc(user ?? "") + "\"}");
         return (r.ok, r.key, r.exp, r.msg);
     }
 
-    async System.Threading.Tasks.Task<(bool ok, string key, long exp, string msg)> TrialAsync() {
-        var r = await PostAuth("/trial", "{}");
+    async System.Threading.Tasks.Task<(bool ok, string key, long exp, string msg)> TrialAsync(string user) {
+        var r = await PostAuth("/trial", "{\"user\":\"" + JsonEsc(user ?? "") + "\"}");
         return (r.ok, r.key, r.exp, r.msg);
     }
 
@@ -1281,7 +1284,7 @@ class HeliaLoader : Form {
         var loginTimer = new System.Windows.Forms.Timer { Interval = 560 };
         loginTimer.Tick += async (_, _) => {
             loginTimer.Stop(); loginTimer.Dispose();
-            var (ok, msg, exp) = await AuthAsync(k);
+            var (ok, msg, exp) = await AuthAsync(k, u);
             _loginDotsTimer.Stop();
             btLogin.Text      = "ENTRAR";
             btLogin.Enabled   = true;

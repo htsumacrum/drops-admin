@@ -11,9 +11,9 @@
     <Company>DROPS</Company>
     <Product>DROPS Loader</Product>
     <Copyright>© DROPS</Copyright>
-    <Version>1.7.1</Version>
-    <AssemblyVersion>1.7.1</AssemblyVersion>
-    <FileVersion>1.7.1</FileVersion>
+    <Version>1.7.2</Version>
+    <AssemblyVersion>1.7.2</AssemblyVersion>
+    <FileVersion>1.7.2</FileVersion>
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <PublishSingleFile>true</PublishSingleFile>
