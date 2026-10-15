@@ -21,6 +21,15 @@ if ($LASTEXITCODE -ne 0) { throw "publish falhou." }
 Copy-Item (Join-Path $ui "dist-slim\loader.exe") (Join-Path $rel "loader\loader.exe") -Force
 python3 (Join-Path $ui "make-manifest.py") $rel $Version
 
+# Assina o manifest. O loader VERIFICA esta assinatura antes de instalar
+# qualquer coisa: sem ela, o update é abortado e nada é escrito em disco.
+# A chave privada vem de DROPS_PRIVATE_KEY (nunca vai para o repo).
+if (-not $env:DROPS_PRIVATE_KEY) {
+    throw "DROPS_PRIVATE_KEY nao definido. Gere as chaves com:`n  python loader-ui\tools\drops_signing.py gen <arquivo.json>`ne exporte DROPS_PRIVATE_KEY antes de buildar."
+}
+python3 (Join-Path $ui "tools\drops_signing.py") sign (Join-Path $rel "manifest.json") (Join-Path $rel "manifest.sig")
+if ($LASTEXITCODE -ne 0) { throw "assinatura do manifest falhou."; }
+
 Set-Location $rel
 git add -A
 git -c user.name="drops" -c user.email="drops@local" commit -m $Message

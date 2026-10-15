@@ -456,9 +456,9 @@ class HeliaLoader : Form {
     Button     btEye, btDiscord;
 
     // pgRegister (primeiro acesso)
-    TextBox    txCode;
+    TextBox    txCode, txRegName;
     Label      lbCodeErr;
-    InputFrame codeFrame;
+    InputFrame codeFrame, nameFrame;
     Button     btActivate, btTrial;
     ToolTip    windowTips;
 
@@ -499,6 +499,66 @@ class HeliaLoader : Form {
             var b = new byte[c.Length];
             for (int i = 0; i < c.Length; i++) b[i] = (byte)(c[i] ^ ((i + 0x38) & 0xFF));
             return System.Text.Encoding.UTF8.GetString(b);
+        }
+    }
+    // ── Verificação de assinatura das respostas do servidor ──────────────────
+    // Sem isto, um servidor local forjado que responda {"ok":true} basta para
+    // liberar o loader. As respostas de /auth, /trial e /activate vêm assinadas
+    // com ECDSA P-256; aqui verificamos contra a lista de confiança.
+    //
+    // A chave pública pode ser divulgada. Gire adicionando uma nova entrada e
+    // removendo a velha: clientes antigos aceitam a nova, e a chave comprometida
+    // deixa de ser aceita por todos.
+    //
+    // ATENÇÃO: REQUIRIR_ASSINATURA = true exige que o Worker esteja publicado
+    // com SIGNING_PRIVATE_KEY configurado ANTES de distribuir este loader.
+    // Sem a chave no servidor, nenhum login funciona (fail-closed, de propósito).
+    static class Signer {
+        // static readonly (não const): com const, o compilador prova que o
+        // retorno abaixo é inalcançável e o resto vira código morto.
+        static readonly bool RequererAssinatura = true;
+
+        // base64(SPKI DER) das chaves públicas confiáveis.
+        // Gere com: python loader-ui/tools/drops_signing.py gen
+        static readonly string[] ChavesPublicas = new[] {
+            // ROTACIONADA 2026-10-15 - kid 4aa9e7cad65e70c9
+            "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdLqMHJtgrMb0S/aDki07YxtPYzMDGiJ8HeLuCjXmJS0Omlei6NwB/oeDPKyFbfDigBWqouaYHG757Gl+HKhjYA=="
+        };
+
+        public static bool Configurado {
+            get {
+                foreach (var k in ChavesPublicas) if (!string.IsNullOrWhiteSpace(k)) return true;
+                return false;
+            }
+        }
+
+        public static bool Verificar(string corpo, string assinaturaB64) {
+            if (string.IsNullOrEmpty(corpo) || string.IsNullOrEmpty(assinaturaB64)) return false;
+            byte[] sig;
+            try { sig = Convert.FromBase64String(assinaturaB64.Trim()); } catch { return false; }
+            if (sig.Length != 64) return false;   // r||s raw, não DER
+            var dados = System.Text.Encoding.UTF8.GetBytes(corpo);
+            foreach (var chave in ChavesPublicas) {
+                if (string.IsNullOrWhiteSpace(chave)) continue;
+                try {
+                    using var ecdsa = System.Security.Cryptography.ECDsa.Create();
+                    ecdsa.ImportSubjectPublicKeyInfo(Convert.FromBase64String(chave.Trim()), out _);
+                    if (ecdsa.VerifyData(dados, sig, System.Security.Cryptography.HashAlgorithmName.SHA256))
+                        return true;
+                } catch { /* chave malformada: tenta a próxima */ }
+            }
+            return false;
+        }
+
+        // Verifica a resposta HTTP do auth. Devolve false se não houver
+        // assinatura válida — o chamador deve tratar como falha de login.
+        public static bool VerificarResposta(System.Net.Http.HttpResponseMessage resp, string corpo) {
+            if (!RequererAssinatura) return true;
+            if (!Configurado) return false;   // loader publicado sem chave: não confia
+            if (!resp.Headers.TryGetValues("X-Drops-Sig", out var vals)) return false;
+            string sig = null;
+            foreach (var v in vals) { sig = v; break; }   // evita depender de System.Linq
+            return Verificar(corpo, sig);
         }
     }
     static readonly byte[] EncBase = new byte[] { 80, 77, 78, 75, 79, 7, 17, 16, 50, 32, 53, 109, 35, 44, 50, 47, 61, 43, 63, 56, 41, 63, 45, 32, 62, 37, 55, 61, 32, 123, 53, 56, 53, 118, 50, 47, 47, 40, 51, 62, 3, 19, 23, 14, 75, 1, 20, 8, 24, 26, 71, 30, 28, 9, 15, 27, 21, 2, 93, 30, 21, 28, 24 };
@@ -922,29 +982,41 @@ class HeliaLoader : Form {
             Font = new Font("Segoe UI", 15f, FontStyle.Bold), ForeColor = LUi.Txt, BackColor = Color.Transparent,
         };
         var intro = new Label {
-            Text = "Ative seu código ou teste grátis.",
+            Text = "Ative seu código, ou entre direto com sua key.",
             Left = 22, Top = 43, Width = 476, Height = 24,
             Font = new Font("Segoe UI", 9f), ForeColor = LUi.Dim, BackColor = Color.Transparent,
         };
-        var lbCode = new Label {
-            Text = "Código de ativação", Left = 22, Top = 84, Width = 476, Height = 18,
+        var lbName = new Label {
+            Text = "Seu nome", Left = 22, Top = 84, Width = 476, Height = 18,
             Font = new Font("Segoe UI", 9f, FontStyle.Bold), ForeColor = LUi.Txt, BackColor = Color.Transparent,
         };
-        codeFrame = new InputFrame { Left = 22, Top = 107, Width = 476, Height = 42, AccessibleName = "Código" };
+        nameFrame = new InputFrame { Left = 22, Top = 107, Width = 476, Height = 42, AccessibleName = "Nome" };
+        txRegName = new TextBox {
+            Left = 10, Top = 8, Width = 456, Height = 24,
+            Font = new Font("Segoe UI", 10f), BackColor = LUi.Panel, ForeColor = LUi.Txt,
+            BorderStyle = BorderStyle.None, MaxLength = 32,
+            AccessibleName = "Seu nome", TabIndex = 0,
+        };
+        nameFrame.Controls.Add(txRegName);
+        var lbCode = new Label {
+            Text = "Código de ativação ou key", Left = 22, Top = 157, Width = 476, Height = 18,
+            Font = new Font("Segoe UI", 9f, FontStyle.Bold), ForeColor = LUi.Txt, BackColor = Color.Transparent,
+        };
+        codeFrame = new InputFrame { Left = 22, Top = 180, Width = 476, Height = 42, AccessibleName = "Código ou key" };
         txCode = new TextBox {
             Left = 10, Top = 8, Width = 456, Height = 24,
             Font = new Font("Segoe UI", 10f), BackColor = LUi.Panel, ForeColor = LUi.Txt,
             BorderStyle = BorderStyle.None, CharacterCasing = CharacterCasing.Upper,
-            AccessibleName = "Código de ativação", TabIndex = 0,
+            AccessibleName = "Código de ativação ou key", TabIndex = 1,
         };
         codeFrame.Controls.Add(txCode);
         lbCodeErr = CreateLoginError("", "Erro na ativação");
-        lbCodeErr.Left = 22; lbCodeErr.Top = 153; lbCodeErr.Width = 476;
+        lbCodeErr.Left = 22; lbCodeErr.Top = 226; lbCodeErr.Width = 476;
 
         btActivate = new Button {
-            Text = "ATIVAR", Left = 22, Top = 180, Width = 476, Height = 44,
+            Text = "ATIVAR / ENTRAR", Left = 22, Top = 252, Width = 476, Height = 44,
             Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
-            BackColor = LUi.Acc, ForeColor = LUi.Bg, FlatStyle = FlatStyle.Flat, TabIndex = 1,
+            BackColor = LUi.Acc, ForeColor = LUi.Bg, FlatStyle = FlatStyle.Flat, TabIndex = 2,
         };
         btActivate.FlatAppearance.BorderSize = 0;
         btActivate.Cursor = Cursors.Hand;
@@ -952,9 +1024,9 @@ class HeliaLoader : Form {
         btActivate.Click += (_, _) => DoActivate();
 
         btTrial = new Button {
-            Text = "TESTAR 24H GRÁTIS", Left = 22, Top = 232, Width = 476, Height = 42,
+            Text = "TESTAR 24H GRÁTIS", Left = 22, Top = 304, Width = 476, Height = 42,
             Font = new Font("Segoe UI", 9f, FontStyle.Bold),
-            BackColor = Color.FromArgb(88, 101, 242), ForeColor = Color.White, FlatStyle = FlatStyle.Flat, TabIndex = 2,
+            BackColor = Color.FromArgb(88, 101, 242), ForeColor = Color.White, FlatStyle = FlatStyle.Flat, TabIndex = 3,
         };
         btTrial.FlatAppearance.BorderSize = 0;
         btTrial.FlatAppearance.MouseOverBackColor = Color.FromArgb(71, 82, 196);
@@ -964,7 +1036,7 @@ class HeliaLoader : Form {
         btTrial.Click += (_, _) => DoTrial();
 
         var btRegBack = new Button {
-            Text = "VOLTAR", Left = 22, Top = 282, Width = 476, Height = 36,
+            Text = "VOLTAR", Left = 22, Top = 354, Width = 476, Height = 36,
             Font = new Font("Segoe UI", 9f), BackColor = Color.FromArgb(30, 30, 36),
             ForeColor = LUi.Txt, FlatStyle = FlatStyle.Flat,
         };
@@ -972,20 +1044,29 @@ class HeliaLoader : Form {
         btRegBack.Click += (_, _) => ShowPage(0);
 
         txCode.KeyDown += (_, e) => { if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; DoActivate(); } };
+        txRegName.KeyDown += (_, e) => { if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; DoActivate(); } };
         txCode.Enter += (_, _) => UpdateRegFrame();
         txCode.Leave += (_, _) => UpdateRegFrame();
+        txRegName.Enter += (_, _) => UpdateRegFrame();
+        txRegName.Leave += (_, _) => UpdateRegFrame();
 
         pgRegister.Controls.AddRange(new Control[] {
-            title, intro, lbCode, codeFrame, lbCodeErr, btActivate, btTrial, btRegBack,
+            title, intro, lbName, nameFrame, lbCode, codeFrame, lbCodeErr, btActivate, btTrial, btRegBack,
         });
         UpdateRegFrame();
     }
 
     void UpdateRegFrame() {
-        if (codeFrame == null) return;
-        codeFrame.IsInvalid = lbCodeErr?.Visible == true;
-        codeFrame.IsFocused = txCode?.Focused == true;
-        codeFrame.Invalidate();
+        if (codeFrame != null) {
+            codeFrame.IsInvalid = lbCodeErr?.Visible == true;
+            codeFrame.IsFocused = txCode?.Focused == true;
+            codeFrame.Invalidate();
+        }
+        if (nameFrame != null) {
+            nameFrame.IsInvalid = lbCodeErr?.Visible == true;
+            nameFrame.IsFocused = txRegName?.Focused == true;
+            nameFrame.Invalidate();
+        }
     }
 
     void RegBusy(bool busy, string err = "") {
@@ -998,20 +1079,47 @@ class HeliaLoader : Form {
     }
 
     async void DoActivate() {
+        var name = (txRegName.Text ?? "").Trim();
         var c = (txCode.Text ?? "").Trim().ToUpperInvariant();
-        if (c.Length < 4) { RegBusy(false, "Informe o código recebido no Discord."); return; }
+        if (name.Length < 3) { RegBusy(false, "Escolha um nome com pelo menos 3 letras."); txRegName.Focus(); return; }
+        if (c.Length < 4) { RegBusy(false, "Informe o código recebido no Discord, ou sua key."); return; }
         RegBusy(true);
         try {
-            var (ok, key, exp, msg) = await ActivateAsync(c);
-            if (!ok || string.IsNullOrEmpty(key)) {
-                RegBusy(false, string.IsNullOrEmpty(msg) ? "Código recusado." : msg);
+            // Se parece key (DROPS-… ou TRL-…), valida direto no /auth em vez
+            // de mandar para /activate — key não é código e nunca estaria em codes.
+            bool pareceKey = c.StartsWith("DROPS-") || c.StartsWith("TRL-");
+            if (!pareceKey) {
+                var (okC, keyC, expC, msgC) = await ActivateAsync(c);
+                if (okC && !string.IsNullOrEmpty(keyC)) {
+                    EntrarComCredencial(name, keyC);
+                    return;
+                }
+                // Caiu aqui: ou o código é inválido, ou o usuário colou uma key
+                // num formato inesperado. Tenta como key antes de desistir.
+                if (string.IsNullOrEmpty(msgC) || msgC.Contains("inválid") || msgC.Contains("Código")) {
+                    var (okK, msgK, expK) = await AuthAsync(c);
+                    if (okK) { EntrarComCredencial(name, c); return; }
+                }
+                RegBusy(false, string.IsNullOrEmpty(msgC) ? "Código recusado." : msgC);
                 return;
             }
-            RegBusy(false);
-            txKey.Text = key;
-            Log("código ativado.");
-            ShowPage(0);
+            var (ok, msg, exp) = await AuthAsync(c);
+            if (!ok) {
+                RegBusy(false, string.IsNullOrEmpty(msg) ? "Key recusada." : msg);
+                return;
+            }
+            EntrarComCredencial(name, c);
         } catch { RegBusy(false, "Falha de conexão."); }
+    }
+
+    // Preenche o login com nome + key e entra, sem pedir para digitar de novo.
+    void EntrarComCredencial(string nome, string credencial) {
+        RegBusy(false);
+        txUser.Text = nome;
+        txKey.Text = credencial;
+        Log("primeiro acesso concluído.");
+        ShowPage(0);
+        DoLogin();
     }
 
     async void DoTrial() {
@@ -1130,6 +1238,12 @@ class HeliaLoader : Form {
             var body = new System.Net.Http.StringContent(json, System.Text.Encoding.UTF8, "application/json");
             var r = await http.PostAsync(ApiBase.TrimEnd('/') + path, body);
             var t = await r.Content.ReadAsStringAsync();
+            // Só confia no corpo se vier assinado pelo servidor. Sem isto, um
+            // servidor local que responda {"ok":true} liberaria o loader.
+            if (!Signer.VerificarResposta(r, t)) {
+                Dbg("resposta não assinada rejeitada: " + path);
+                return (false, null, 0, "Servidor não autenticado.");
+            }
             using var doc = System.Text.Json.JsonDocument.Parse(t);
             var root = doc.RootElement;
             bool ok = root.TryGetProperty("ok", out var o) && o.ValueKind == System.Text.Json.JsonValueKind.True;
@@ -1719,6 +1833,25 @@ class HeliaLoader : Form {
     // Versão local do loader persiste em loader.version (igual version.txt do overlay).
     static string LoaderVersionFile() => System.IO.Path.Combine(Base(), "loader.version");
 
+    // Maior build_id de manifest já aceito. Protege contra replay de manifest
+    // antigo (que tem assinatura válida).
+    static string BuildIdFile() => System.IO.Path.Combine(Base(), "loader.build");
+
+    static long LocalBuildId() {
+        try {
+            string f = BuildIdFile();
+            if (System.IO.File.Exists(f)) {
+                var t = System.IO.File.ReadAllText(f).Trim();
+                if (long.TryParse(t, out var v) && v > 0) return v;
+            }
+        } catch { }
+        return 0;
+    }
+
+    static void SalvarBuildId(long id) {
+        try { System.IO.File.WriteAllText(BuildIdFile(), id.ToString()); } catch { }
+    }
+
     static string LocalLoaderVersion() {
         try {
             string vf = LoaderVersionFile();
@@ -1753,6 +1886,17 @@ class HeliaLoader : Form {
             } catch { }
             using var http = new System.Net.Http.HttpClient { Timeout = TimeSpan.FromSeconds(120) };
             string man = await http.GetStringAsync(UpdateBase + "/manifest.json");
+            // Assinatura do manifest: sem ela, quem servir o manifesto decide o
+            // que será instalado. O SHA-256 por arquivo só protege contra
+            // corrupção, não contra manifesto malicioso.
+            string sigTxt;
+            try { sigTxt = (await http.GetStringAsync(UpdateBase + "/manifest.sig")).Trim(); }
+            catch (Exception ex) { Dbg("manifest.sig ausente: " + ex.GetType().Name); return; }
+            if (!Signer.Verificar(man, sigTxt)) {
+                Dbg("manifest com assinatura inválida — update abortado");
+                return;
+            }
+            Dbg("manifest assinado ok");
             // Copia tudo pra memória antes de descartar o doc (o Offer sobrevive ao using).
             string ovVer, ldVer;
             var loaderFiles = new System.Collections.Generic.List<(string rel, string sha, long size)>();
@@ -1761,6 +1905,20 @@ class HeliaLoader : Form {
                 var root = doc.RootElement;
                 ovVer = root.TryGetProperty("overlay_version", out var o) ? o.GetString() : null;
                 ldVer = root.TryGetProperty("loader_version", out var l) ? l.GetString() : null;
+                long buildId = 0;
+                if (root.TryGetProperty("build_id", out var bi) && bi.ValueKind == System.Text.Json.JsonValueKind.Number)
+                    buildId = bi.GetInt64();
+                if (buildId > 0) {
+                    // Rollback: um manifest antigo tem assinatura válida, então
+                    // sem contador monotônico um atacante serviria downgrade para
+                    // versão vulnerável. Registra o maior build_id já visto.
+                    long visto = LocalBuildId();
+                    if (buildId <= visto) {
+                        Dbg($"rollback bloqueado: build_id {buildId} <= {visto} já visto");
+                        return;
+                    }
+                    SalvarBuildId(buildId);
+                }
                 foreach (var f in root.GetProperty("files").EnumerateArray()) {
                     string rel = f.GetProperty("path").GetString();
                     string sha = f.GetProperty("sha256").GetString();

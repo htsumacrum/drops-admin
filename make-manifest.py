@@ -2,7 +2,7 @@
 Uso: python3 make-manifest.py <pasta-drops-release> <loader_version>
 Mantem overlay_version atual; recalcula sha256/size de todos os arquivos.
 """
-import os, json, hashlib, sys
+import os, json, hashlib, sys, time
 
 root, ver = sys.argv[1], sys.argv[2]
 old = {}
@@ -12,6 +12,7 @@ except Exception:
     pass
 man = {'loader_version': ver,
        'overlay_version': old.get('overlay_version', '3.1.2'),
+       'build_id': max(int(old.get('build_id', 0) or 0) + 1, int(time.time() * 1000)),
        'files': []}
 for dirpath, _, fns in os.walk(root):
     if '.git' in dirpath:
@@ -19,6 +20,10 @@ for dirpath, _, fns in os.walk(root):
     for fn in sorted(fns):
         fp = os.path.join(dirpath, fn)
         rel = os.path.relpath(fp, root).replace(chr(92), '/')
+        # O manifest nao pode listar a si mesmo nem a propria assinatura: o
+        # updater tentaria baixar os dois para dentro da pasta do overlay.
+        if rel in ('manifest.json', 'manifest.sig'):
+            continue
         with open(fp, 'rb') as f:
             man['files'].append({
                 'path': rel,
