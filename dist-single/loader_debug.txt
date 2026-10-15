@@ -1,0 +1,13 @@
+[23:37:29] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[23:37:30] update check falhou: Response status code does not indicate success: 404 (Not Found).
+[23:39:22] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[23:39:23] update check falhou: Response status code does not indicate success: 404 (Not Found).
+[23:39:29] login ok (stub offline; key descartada)
+[23:39:44] login ok (stub offline; key descartada)
+[23:40:24] login ok (stub offline; key descartada)
+[23:41:23] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[23:41:23] update check falhou: Response status code does not indicate success: 404 (Not Found).
+[23:42:01] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[23:42:01] update check falhou: Response status code does not indicate success: 404 (Not Found).
+[23:42:09] login ok (stub offline; key descartada)
+[23:42:15] validacao ok: C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe

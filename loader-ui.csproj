@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <AssemblyName>loader</AssemblyName>
+    <RootNamespace>loader</RootNamespace>
+    <AssemblyTitle>DROPS Loader</AssemblyTitle>
+    <Description>DROPS Loader — overlay externo para Paladins</Description>
+    <Company>DROPS</Company>
+    <Product>DROPS Loader</Product>
+    <Copyright>© DROPS</Copyright>
+    <Version>1.5.3</Version>
+    <AssemblyVersion>1.5.3</AssemblyVersion>
+    <FileVersion>1.5.3</FileVersion>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PaladinsProductCard.jpg" />
+    <EmbeddedResource Include="PaladinsStartBanner.jpg" />
+    <EmbeddedResource Include="BgBackdrop.jpg" />
+    <EmbeddedResource Include="BrandLogo.png" />
+  </ItemGroup>
+</Project>

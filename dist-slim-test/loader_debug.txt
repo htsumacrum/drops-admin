@@ -1,0 +1,12 @@
+[03:25:01] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:25:01] overlay já atualizado (3.1.2)
+[03:25:22] OfferLoaderUpdate: The operation was canceled.
+[03:25:29] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:26:28] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:26:28] overlay já atualizado (3.1.2)
+[03:26:29] OfferLoaderUpdate: The operation was canceled.
+[03:26:40] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:26:40] overlay já atualizado (3.1.2)
+[03:34:58] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:35:00] overlay já atualizado (3.1.2)
+[03:35:09] OfferLoaderUpdate: The operation was canceled.

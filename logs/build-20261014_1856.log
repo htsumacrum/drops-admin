@@ -1,0 +1,22 @@
+# Build do redesign HELIA
+
+Data: 2026-10-14
+Projeto: loader-ui (.NET 9 WinForms)
+
+## Tentativa inicial
+Comando: `dotnet build -c Release`
+Resultado: falha de compilação.
+- CS0103 em `Program.cs`: controles usados pelo reposicionamento de erros (`lbKey`, `lbKeyHint`, `dataInfo`) estavam declarados localmente; movidos para campos da classe.
+- WFO1000: propriedades customizadas de controles sem metadados de serialização; anotadas com `DesignerSerializationVisibility.Hidden`.
+
+## Verificação final
+Comando: `dotnet build -c Release`
+Saída:
+- `loader-ui -> ...\\bin\\Release\\net9.0-windows\\loader.dll`
+- Compilação com êxito.
+- 0 avisos, 0 erros.
+- Tempo decorrido (última execução, após ajuste de layout): 00:00:02.63.
+
+Validação adicional: buscas de referências confirmaram `UseSystemPasswordChar = true`, erros por campo, CTA "Ir para seleção do produto", limpeza da key ao avançar, persistência somente via `loader.cfg` e ausência do temporizador de fade antigo.
+
+Nota: este projeto é uma aplicação WinForms nativa; a renderização visual em execução não foi automatizada nesta sessão. `git diff` não está disponível porque o diretório não é um repositório Git.

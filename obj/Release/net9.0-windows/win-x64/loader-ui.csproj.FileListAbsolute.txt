@@ -1,0 +1,12 @@
+C:\Users\euleo\hackworks\opencode-team\loader-ui\bin\Release\net9.0-windows\win-x64\loader.exe
+C:\Users\euleo\hackworks\opencode-team\loader-ui\bin\Release\net9.0-windows\win-x64\loader.deps.json
+C:\Users\euleo\hackworks\opencode-team\loader-ui\bin\Release\net9.0-windows\win-x64\loader.runtimeconfig.json
+C:\Users\euleo\hackworks\opencode-team\loader-ui\bin\Release\net9.0-windows\win-x64\loader.dll
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\loader-ui.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\loader-ui.AssemblyInfoInputs.cache
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\loader-ui.AssemblyInfo.cs
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\loader-ui.csproj.CoreCompileInputs.cache
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\loader.dll
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\refint\loader.dll
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\loader-ui.genruntimeconfig.cache
+C:\Users\euleo\hackworks\opencode-team\loader-ui\obj\Release\net9.0-windows\win-x64\ref\loader.dll

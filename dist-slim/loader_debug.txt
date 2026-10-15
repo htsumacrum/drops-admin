@@ -1,0 +1,68 @@
+[23:47:15] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[23:47:15] update check falhou: Response status code does not indicate success: 404 (Not Found).
+[23:48:26] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[23:48:27] update check falhou: Response status code does not indicate success: 404 (Not Found).
+[02:40:31] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[02:40:31] overlay já atualizado (3.1.2)
+[02:40:45] OfferLoaderUpdate: The operation was canceled.
+[02:41:11] login ok via servidor
+[02:41:20] validacao ok: C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:08:16] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:08:16] overlay já atualizado (3.1.2)
+[03:08:22] OfferLoaderUpdate: The operation was canceled.
+[03:18:03] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:18:03] overlay já atualizado (3.1.2)
+[03:18:06] OfferLoaderUpdate: The operation was canceled.
+[03:21:50] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:21:50] overlay já atualizado (3.1.2)
+[03:21:52] OfferLoaderUpdate: The operation was canceled.
+[03:29:52] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:29:52] overlay já atualizado (3.1.2)
+[03:30:03] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:30:08] OfferLoaderUpdate: The operation was canceled.
+[03:30:48] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:30:49] overlay já atualizado (3.1.2)
+[03:31:10] OfferLoaderUpdate: The operation was canceled.
+[03:31:38] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:31:39] overlay já atualizado (3.1.2)
+[03:32:05] OfferLoaderUpdate: The operation was canceled.
+[03:32:58] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:32:58] overlay já atualizado (3.1.2)
+[03:33:15] erro ao baixar loader/loader.exe: The operation was canceled.
+[03:36:10] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[03:36:10] overlay já atualizado (3.1.2)
+[03:36:16] erro ao baixar loader/loader.exe: The operation was canceled.
+[04:28:36] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[04:28:36] overlay já atualizado (3.1.2)
+[04:28:48] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[04:29:10] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[04:29:45] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[04:29:45] overlay já atualizado (3.1.2)
+[04:29:45] loader já atualizado (1.5.0)
+[10:30:40] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[10:30:40] overlay já atualizado (3.1.2)
+[10:30:42] baixando loader/loader.exe...
+[10:30:42] baixado ok: loader/loader.exe
+[10:30:42] aplicando update 1.5.1, reiniciando...
+[10:34:48] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[10:34:48] overlay já atualizado (3.1.2)
+[10:34:48] oferta de update exibida (1.5.1)
+[10:36:01] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[10:36:02] overlay já atualizado (3.1.2)
+[10:36:02] oferta de update exibida (1.5.2)
+[10:36:31] baixado ok: loader/loader.exe
+[10:36:31] aplicando update 1.5.2, reiniciando...
+[10:36:33] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[10:36:33] overlay já atualizado (3.1.2)
+[10:36:33] loader já atualizado (1.5.2)
+[10:47:30] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[10:47:31] overlay já atualizado (3.1.2)
+[10:47:31] oferta de update exibida (1.5.3)
+[11:06:29] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[11:06:29] overlay já atualizado (3.1.2)
+[11:06:30] oferta de update exibida (1.5.3)
+[11:06:32] baixado ok: loader/loader.exe
+[11:06:33] aplicando update 1.5.3, reiniciando...
+[11:06:35] startup overlayPath=C:\Users\euleo\hackworks\opencode-team\esp\ext\publish\overlay.exe
+[11:06:36] overlay já atualizado (3.1.2)
+[11:06:36] loader já atualizado (1.5.3)

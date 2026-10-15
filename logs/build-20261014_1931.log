@@ -1,0 +1,22 @@
+# Verificação do redesenho da área LOG
+
+Data: 2026-10-14
+Escopo: somente a área de log da página Iniciar.
+
+## Build
+Comando: `dotnet build -c Release`
+Saída:
+- `loader-ui -> ...\\bin\\Release\\net9.0-windows\\loader.dll`
+- Compilação com êxito.
+- 0 avisos, 0 erros.
+- Tempo decorrido: 00:00:04.59.
+
+## Verificações por código
+- O console mantém o histórico em modo somente leitura, seleção/cópia e mensagens com timestamp.
+- A barra branca do RichTextBox é substituída por uma barra personalizada no tema roxo; wheel, teclas de navegação, clique na trilha e arraste da alça são tratados.
+- Timestamp, corpo e mensagens com prefixos reais `ERRO`/`Falha` recebem estilos diferentes sem alterar o texto original.
+- Uma linha nova recebe destaque violeta temporário; timer e fontes do controle são descartados ao fechar.
+- Ao chegar um novo registro, o painel acompanha o final se já estava no final; se a pessoa estiver lendo conteúdo anterior, tenta preservar seleção e posição.
+
+## Limitação
+Não houve captura automatizada da janela WinForms em execução nesta sessão. A apresentação final da barra e a acessibilidade via Narrator devem ser confirmadas abrindo o launcher no Windows.

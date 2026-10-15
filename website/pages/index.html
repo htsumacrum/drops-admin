@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>DROPS — Painel administrativo</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="false"></div>
+
+  <section class="access-screen" id="access-screen">
+    <div class="access-card">
+      <div class="brand-mark" aria-hidden="true">D</div>
+      <p class="eyebrow">SEU ACESSO</p>
+      <h1>Painel administrativo</h1>
+      <p class="subheading">Entre com o segredo administrativo para gerenciar licenças, códigos e trials.</p>
+      <form id="access-form" autocomplete="off">
+        <div class="field">
+          <label for="admin-secret">Segredo administrativo</label>
+          <input class="input" id="admin-secret" name="secret" type="password" autocomplete="current-password" required spellcheck="false" aria-describedby="access-error">
+        </div>
+        <div class="access-error" id="access-error" role="alert"></div>
+        <button class="button full" id="access-submit" type="submit">Entrar</button>
+      </form>
+      <p class="access-foot">O segredo fica restrito a esta sessão do navegador. Não o compartilhe nem o salve em arquivos.</p>
+    </div>
+  </section>
+
+  <div class="app-shell hidden" id="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">D</div>
+        <div><p class="brand-title">DROPS</p><p class="brand-subtitle">Administração</p></div>
+      </div>
+      <nav aria-label="Navegação administrativa">
+        <p class="nav-label">Gerenciamento</p>
+        <div class="nav-list">
+          <button class="nav-button active" type="button" data-page="dashboard"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></svg></span>Visão geral</button>
+          <button class="nav-button" type="button" data-page="keys"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="M11 12l8 8m-3-3l2-2m-5-1l2-2"/></svg></span>Licenças</button>
+          <button class="nav-button" type="button" data-page="create-key"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="M11 12l7.5 7.5M16 16l2-2m-5-1l2-2M18 4v6m-3-3h6"/></svg></span>Gerar key</button>
+          <button class="nav-button" type="button" data-page="create-code"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6M9 16h6"/></svg></span>Gerar código</button>
+          <button class="nav-button" type="button" data-page="trials"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg></span>Trials</button>
+          <button class="nav-button" type="button" data-page="logs"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="13" width="4" height="4"/><rect x="10.5" y="13" width="4" height="4"/><rect x="18" y="13" width="4" height="4"/><rect x="3" y="7" width="4" height="4"/><rect x="10.5" y="7" width="4" height="4"/><rect x="18" y="7" width="4" height="4"/></svg></span>Logs</button>
+        </div>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="connection-label"><span class="connection-dot"></span><span>Worker de autenticação</span></div>
+        <button class="button secondary full" type="button" id="logout-button">Encerrar sessão</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="page-eyebrow">VISÃO GERAL</p>
+          <h1 id="page-title">Visão geral</h1>
+          <p class="subheading" id="page-description">Resumo das licenças e da atividade do loader.</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="button secondary" type="button" id="refresh-button">Atualizar dados</button>
+        </div>
+      </header>
+
+      <section class="page active" id="page-dashboard" aria-labelledby="page-title">
+        <div class="cards">
+          <article class="stat-card"><div class="stat-head"><span>Keys ativas</span></div><div class="stat-value" id="stat-active">—</div><div class="stat-note">Licenças válidas e não banidas</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Keys expiradas</span></div><div class="stat-value" id="stat-expired">—</div><div class="stat-note">Prazo de validade encerrado</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Keys banidas</span></div><div class="stat-value" id="stat-banned">—</div><div class="stat-note">Acesso bloqueado</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Trials usados</span></div><div class="stat-value" id="stat-trials">—</div><div class="stat-note">IPs registrados pelo Worker</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Códigos pendentes</span></div><div class="stat-value" id="stat-codes">—</div><div class="stat-note">Aguardando ativação no loader</div></article>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>Ações rápidas</h2><p class="subheading">Atalhos para as tarefas mais usadas.</p></div></div>
+          <div class="panel-body"><div class="quick-actions">
+            <button class="action-tile" type="button" data-page="create-key"><span><strong>Gerar uma key</strong><p>Criar uma licença para um produto.</p></span><span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12h14m-5.5-5.5L18.5 12 13 17.5"/></svg></span></button>
+            <button class="action-tile" type="button" data-page="create-code"><span><strong>Gerar um código</strong><p>Criar um código de ativação de uso único.</p></span><span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12h14m-5.5-5.5L18.5 12 13 17.5"/></svg></span></button>
+          </div></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-keys" aria-labelledby="page-title">
+        <div class="section-heading"><div><h2>Licenças registradas</h2><p class="subheading">Consulte, busque e altere o status das keys existentes.</p></div></div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>Lista de keys</h2><p class="subheading" id="keys-summary">Carregando dados do Worker…</p></div></div>
+          <div class="panel-body">
+            <form class="toolbar" id="search-form">
+              <input class="input" id="key-search" type="search" name="q" placeholder="Buscar por nota ou trecho do hash" aria-label="Buscar por nota ou trecho do hash">
+              <button class="button" type="submit">Buscar</button>
+              <button class="button secondary" type="button" id="clear-search">Limpar</button>
+            </form>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Hash curto</th><th>Produto</th><th>Expiração</th><th>HWID</th><th>Nota</th><th>Status</th><th>Ação</th></tr></thead><tbody id="keys-tbody"><tr><td colspan="7" class="table-empty">Carregando keys…</td></tr></tbody></table></div>
+          <div class="table-foot"><span id="keys-count">0 registros</span><span>O painel exibe somente o identificador curto retornado pelo Worker.</span></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-create-key" aria-labelledby="page-title">
+        <div class="section-heading"><div><h2>Nova licença</h2><p class="subheading">A key é criada no navegador e enviada ao servidor apenas como hash SHA-256.</p></div></div>
+        <section class="panel form-panel">
+          <div class="panel-head"><div><h2>Dados da key</h2><p class="subheading">A chave completa não é armazenada pelo painel.</p></div></div>
+          <div class="panel-body">
+            <p class="form-info">Copie a key assim que ela for criada. Ela será exibida somente nesta confirmação e desaparecerá ao sair desta tela.</p>
+            <form id="create-key-form">
+              <div class="form-grid">
+                <div class="field"><label for="key-product">Produto</label><select class="select" id="key-product" name="product" required><option value="paladins">Paladins</option></select></div>
+                <div class="field"><label for="key-days">Validade em dias</label><input class="input" id="key-days" name="days" type="number" min="1" max="36500" step="1" value="30" required></div>
+                <div class="field span-2"><label for="key-note">Nota interna</label><input class="input" id="key-note" name="note" type="text" maxlength="120" placeholder="venda-004" autocomplete="off"></div>
+              </div>
+              <div class="form-actions"><button class="button secondary" type="reset">Limpar campos</button><button class="button" id="create-key-submit" type="submit">Gerar key</button></div>
+            </form>
+            <div class="issued-box hidden" id="issued-key-box" aria-live="polite">
+              <div class="issued-label">KEY CRIADA</div>
+              <p class="issued-value" id="issued-key-value"></p>
+              <button class="button success" type="button" id="copy-key-button">Copiar key</button>
+              <p class="issued-warning">Esta é a única exibição da chave completa. Guarde-a agora; ela não será mostrada novamente.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="page" id="page-create-code" aria-labelledby="page-title">
+        <div class="section-heading"><div><h2>Novo código de ativação</h2><p class="subheading">O código é de uso único e poderá ser ativado pelo cliente no loader.</p></div></div>
+        <section class="panel form-panel">
+          <div class="panel-head"><div><h2>Dados do código</h2><p class="subheading">Somente o hash SHA-256 é enviado ao Worker.</p></div></div>
+          <div class="panel-body">
+            <p class="form-info">Copie o código após a criação. O painel não salva o código completo e não poderá recuperá-lo depois.</p>
+            <form id="create-code-form">
+              <div class="form-grid">
+                <div class="field"><label for="code-product">Produto</label><select class="select" id="code-product" name="product" required><option value="paladins">Paladins</option></select></div>
+                <div class="field"><label for="code-days">Validade em dias após ativação</label><input class="input" id="code-days" name="days" type="number" min="1" max="36500" step="1" value="30" required></div>
+                <div class="field span-2"><label for="code-note">Nota interna</label><input class="input" id="code-note" name="note" type="text" maxlength="120" placeholder="venda-004" autocomplete="off"></div>
+              </div>
+              <div class="form-actions"><button class="button secondary" type="reset">Limpar campos</button><button class="button" id="create-code-submit" type="submit">Gerar código</button></div>
+            </form>
+            <div class="issued-box hidden" id="issued-code-box" aria-live="polite">
+              <div class="issued-label">CÓDIGO CRIADO</div>
+              <p class="issued-value" id="issued-code-value"></p>
+              <button class="button success" type="button" id="copy-code-button">Copiar código</button>
+              <p class="issued-warning">Esta é a única exibição do código completo. Guarde-o agora; ele não será mostrado novamente.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="page" id="page-trials" aria-labelledby="page-title">
+        <div class="section-heading"><div><h2>Histórico de trials</h2><p class="subheading">IPs que já utilizaram um trial, com data de registro.</p></div></div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>IPs registrados</h2><p class="subheading" id="trials-summary">Carregando dados do Worker…</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Endereço IP</th><th>Data e horário</th></tr></thead><tbody id="trials-tbody"><tr><td colspan="2" class="table-empty">Carregando trials…</td></tr></tbody></table></div>
+          <div class="table-foot"><span id="trials-count">0 registros</span><span>Dados fornecidos pelo Worker de autenticação.</span></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-logs" aria-labelledby="page-title">
+        <div class="section-heading"><div><h2>Histórico de atividades</h2><p class="subheading">Ações registradas no sistema: criações, bans, ativações e mais.</p></div></div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>Registros</h2><p class="subheading" id="logs-summary">Carregando atividades…</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Ação</th><th>Detalhes</th><th>Data</th></tr></thead><tbody id="logs-tbody"><tr><td colspan="3" class="table-empty">Carregando logs…</td></tr></tbody></table></div>
+          <div class="table-foot"><span id="logs-count">0 registros</span><span>Ações guardadas no Worker.</span></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
