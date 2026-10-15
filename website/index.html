@@ -232,6 +232,7 @@
           <button class="nav-button" type="button" data-page="create-key"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="M11 12l7.5 7.5M16 16l2-2m-5-1l2-2M18 4v6m-3-3h6"/></svg></span>Gerar key</button>
           <button class="nav-button" type="button" data-page="create-code"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6M9 16h6"/></svg></span>Gerar cÃ³digo</button>
           <button class="nav-button" type="button" data-page="trials"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg></span>Trials</button>
+          <button class="nav-button" type="button" data-page="access"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg></span>Acessos</button>
         </div>
       </nav>
       <div class="sidebar-bottom">
@@ -341,6 +342,17 @@
           <div class="panel-head"><div><h2>IPs registrados</h2><p class="subheading" id="trials-summary">Carregando dados do Workerâ€¦</p></div></div>
           <div class="table-wrap"><table><thead><tr><th>EndereÃ§o IP</th><th>Data e horÃ¡rio</th></tr></thead><tbody id="trials-tbody"><tr><td colspan="2" class="table-empty">Carregando trialsâ€¦</td></tr></tbody></table></div>
           <div class="table-foot"><span id="trials-count">0 registros</span><span>Dados fornecidos pelo Worker de autenticaÃ§Ã£o.</span></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-access" aria-labelledby="page-title">
+        <div class="section-heading">
+          <div><h2>Histórico de acessos</h2><p class="subheading">Quem entrou, com qual key, de qual máquina e quando.</p></div>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>Últimos acessos</h2><p class="subheading" id="logins-summary">Carregando acessos…</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Key</th><th>Usuário</th><th>HWID</th><th>IP</th><th>Data e horário</th></tr></thead><tbody id="access-tbody"><tr><td colspan="5" class="table-empty">Carregando acessos…</td></tr></tbody></table></div>
+          <div class="table-foot"><span id="access-count">0 registros</span><span>Dados fornecidos pelo Worker de autenticação.</span></div>
         </section>
       </section>
     </main>
@@ -513,7 +525,8 @@
           keys: ['LICENÃ‡AS', 'LicenÃ§as', 'Pesquise, consulte e gerencie as licenÃ§as cadastradas.'],
           'create-key': ['LICENÃ‡AS', 'Gerar key', 'Crie uma nova licenÃ§a para o loader DROPS.'],
           'create-code': ['ATIVAÃ‡ÃƒO', 'Gerar cÃ³digo', 'Crie um cÃ³digo de ativaÃ§Ã£o de uso Ãºnico.'],
-          trials: ['ATIVIDADE', 'HistÃ³rico de trials', 'Consulte os IPs registrados no sistema de trial.']
+          trials: ['ATIVIDADE', 'HistÃ³rico de trials', 'Consulte os IPs registrados no sistema de trial.'],
+          access: ['ATIVIDADE', 'Histórico de acessos', 'Quem entrou, com qual key, de qual máquina e quando.']
         };
         if (!titles[page]) return;
         if (currentPage !== page) clearIssuedCredential();
@@ -525,6 +538,7 @@
         $('#page-description').textContent = titles[page][2];
         if (page === 'keys') loadKeys();
         if (page === 'trials') loadTrials();
+        if (page === 'access') loadAccess();
         if (page === 'dashboard') loadStats();
       }
       function setBusy(button, busy, busyText) {
@@ -652,6 +666,46 @@
           toast(isBanned ? 'Key desbanida.' : 'Key banida.', 'success');
           await Promise.allSettled([loadKeys(), loadStats()]);
         } catch (error) { genericFailure(error); }
+      }
+      async function loadAccess() {
+        if (!adminSecret) return;
+        const body = $('#access-tbody');
+        body.innerHTML = '<tr><td colspan="5" class="table-empty">Carregando acessos…</td></tr>';
+        try {
+          const data = await api('/admin/logins');
+          const logins = Array.isArray(data.logins) ? data.logins : [];
+          renderAccess(logins);
+          return true;
+        } catch (error) {
+          if (error.message !== 'UNAUTHORIZED' && error.message !== 'REQUEST_REJECTED') {
+            body.innerHTML = '<tr><td colspan="5" class="table-empty">Não foi possível carregar os acessos.</td></tr>';
+          }
+          genericFailure(error);
+          return false;
+        }
+      }
+      function renderAccess(logins) {
+        const body = $('#access-tbody');
+        body.replaceChildren();
+        $('#access-count').textContent = `${logins.length} ${logins.length === 1 ? 'registro' : 'registros'}`;
+        $('#logins-summary').textContent = logins.length ? 'Últimos acessos registrados pelo Worker.' : 'Nenhum acesso registrado ainda.';
+        if (!logins.length) {
+          const row = document.createElement('tr'); const cell = document.createElement('td');
+          cell.colSpan = 5; cell.className = 'table-empty'; cell.textContent = 'Nenhum acesso registrado.'; row.appendChild(cell); body.appendChild(row); return;
+        }
+        logins.forEach(login => {
+          const row = document.createElement('tr');
+          row.appendChild(textCell(login.h || '—'));
+          const userCell = textCell(login.user || '—'); if (login.user) { userCell.classList.add('table-user'); userCell.title = String(login.user); } row.appendChild(userCell);
+          const hwid = login.hwid ? String(login.hwid) : '';
+          const hwidCell = textCell(hwid ? (hwid.length > 12 ? `${hwid.slice(0, 8)}…` : hwid) : '—');
+          if (hwid) { hwidCell.title = 'HWID abreviado por segurança visual'; hwidCell.classList.add('mono'); }
+          row.appendChild(hwidCell);
+          const ipCell = textCell(login.ip || '—'); ipCell.classList.add('trial-ip'); row.appendChild(ipCell);
+          const stamp = Number(login.at);
+          const dateCell = textCell(Number.isFinite(stamp) && stamp > 0 ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date(stamp)) : '—');
+          row.appendChild(dateCell); body.appendChild(row);
+        });
       }
       async function loadTrials() {
         if (!adminSecret) return;
@@ -797,6 +851,7 @@
           const results = [await loadStats()];
           if (currentPage === 'keys') results.push(await loadKeys());
           if (currentPage === 'trials') results.push(await loadTrials());
+          if (currentPage === 'access') results.push(await loadAccess());
           if (results.every(Boolean)) toast('Dados atualizados.', 'success');
         } finally { restore(); }
       });
