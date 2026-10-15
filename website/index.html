@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <meta name="referrer" content="no-referrer">
-  <title>DROPS — Painel administrativo</title>
+  <title>DROPS â€” Painel administrativo</title>
   <style>
     :root {
       color-scheme: dark;
@@ -133,7 +133,8 @@
     .issued-label { margin-bottom: 8px; color: var(--success); font-size: 10px; font-weight: 750; letter-spacing: .1em; }
     .issued-value { overflow-wrap: anywhere; margin: 0 0 15px; color: var(--text); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: clamp(17px, 3vw, 24px); font-weight: 700; letter-spacing: .035em; }
     .issued-warning { margin: 11px 0 0; color: #a4cdbd; font-size: 11px; line-height: 1.5; }
-    .table-note { max-width: 220px; overflow: hidden; color: var(--muted); text-overflow: ellipsis; }
+    .table-user { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; color: #d9d2e0; }
+        .table-note { max-width: 220px; overflow: hidden; color: var(--muted); text-overflow: ellipsis; }
     .toast-region { position: fixed; z-index: 1000; top: 16px; right: 16px; display: grid; width: min(360px, calc(100vw - 32px)); gap: 8px; pointer-events: none; }
     .toast { padding: 12px 14px; border: 1px solid var(--border-strong); border-left: 3px solid var(--accent); border-radius: 7px; background: #211e25; box-shadow: var(--shadow); color: var(--text); font-size: 12px; line-height: 1.45; animation: toast-in .16s ease-out; }
     .toast.success { border-left-color: var(--success); }
@@ -204,7 +205,7 @@
       <div class="brand-mark" aria-hidden="true">D</div>
       <p class="eyebrow">SEU ACESSO</p>
       <h1>Painel administrativo</h1>
-      <p class="subheading">Entre com o segredo administrativo para gerenciar licenças, códigos e trials.</p>
+      <p class="subheading">Entre com o segredo administrativo para gerenciar licenÃ§as, cÃ³digos e trials.</p>
       <form id="access-form" autocomplete="off">
         <div class="field">
           <label for="admin-secret">Segredo administrativo</label>
@@ -213,7 +214,7 @@
         <div class="access-error" id="access-error" role="alert"></div>
         <button class="button full" id="access-submit" type="submit">Entrar</button>
       </form>
-      <p class="access-foot">O segredo fica restrito a esta sessão do navegador. Não o compartilhe nem o salve em arquivos.</p>
+      <p class="access-foot">O segredo fica restrito a esta sessÃ£o do navegador. NÃ£o o compartilhe nem o salve em arquivos.</p>
     </div>
   </section>
 
@@ -221,30 +222,30 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">D</div>
-        <div><p class="brand-title">DROPS</p><p class="brand-subtitle">Administração</p></div>
+        <div><p class="brand-title">DROPS</p><p class="brand-subtitle">AdministraÃ§Ã£o</p></div>
       </div>
-      <nav aria-label="Navegação administrativa">
+      <nav aria-label="NavegaÃ§Ã£o administrativa">
         <p class="nav-label">Gerenciamento</p>
         <div class="nav-list">
-          <button class="nav-button active" type="button" data-page="dashboard"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></svg></span>Visão geral</button>
-          <button class="nav-button" type="button" data-page="keys"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="M11 12l8 8m-3-3l2-2m-5-1l2-2"/></svg></span>Licenças</button>
+          <button class="nav-button active" type="button" data-page="dashboard"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></svg></span>VisÃ£o geral</button>
+          <button class="nav-button" type="button" data-page="keys"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="M11 12l8 8m-3-3l2-2m-5-1l2-2"/></svg></span>LicenÃ§as</button>
           <button class="nav-button" type="button" data-page="create-key"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="M11 12l7.5 7.5M16 16l2-2m-5-1l2-2M18 4v6m-3-3h6"/></svg></span>Gerar key</button>
-          <button class="nav-button" type="button" data-page="create-code"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6M9 16h6"/></svg></span>Gerar código</button>
+          <button class="nav-button" type="button" data-page="create-code"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6M9 16h6"/></svg></span>Gerar cÃ³digo</button>
           <button class="nav-button" type="button" data-page="trials"><span class="nav-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg></span>Trials</button>
         </div>
       </nav>
       <div class="sidebar-bottom">
-        <div class="connection-label"><span class="connection-dot"></span><span>Worker de autenticação</span></div>
-        <button class="button secondary full" type="button" id="logout-button">Encerrar sessão</button>
+        <div class="connection-label"><span class="connection-dot"></span><span>Worker de autenticaÃ§Ã£o</span></div>
+        <button class="button secondary full" type="button" id="logout-button">Encerrar sessÃ£o</button>
       </div>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div>
-          <p class="eyebrow" id="page-eyebrow">VISÃO GERAL</p>
-          <h1 id="page-title">Visão geral</h1>
-          <p class="subheading" id="page-description">Resumo das licenças e da atividade do loader.</p>
+          <p class="eyebrow" id="page-eyebrow">VISÃƒO GERAL</p>
+          <h1 id="page-title">VisÃ£o geral</h1>
+          <p class="subheading" id="page-description">Resumo das licenÃ§as e da atividade do loader.</p>
         </div>
         <div class="topbar-actions">
           <button class="button secondary" type="button" id="refresh-button">Atualizar dados</button>
@@ -253,27 +254,27 @@
 
       <section class="page active" id="page-dashboard" aria-labelledby="page-title">
         <div class="cards">
-          <article class="stat-card"><div class="stat-head"><span>Keys ativas</span></div><div class="stat-value" id="stat-active">—</div><div class="stat-note">Licenças válidas e não banidas</div></article>
-          <article class="stat-card"><div class="stat-head"><span>Keys expiradas</span></div><div class="stat-value" id="stat-expired">—</div><div class="stat-note">Prazo de validade encerrado</div></article>
-          <article class="stat-card"><div class="stat-head"><span>Keys banidas</span></div><div class="stat-value" id="stat-banned">—</div><div class="stat-note">Acesso bloqueado</div></article>
-          <article class="stat-card"><div class="stat-head"><span>Trials usados</span></div><div class="stat-value" id="stat-trials">—</div><div class="stat-note">IPs registrados pelo Worker</div></article>
-          <article class="stat-card"><div class="stat-head"><span>Códigos pendentes</span></div><div class="stat-value" id="stat-codes">—</div><div class="stat-note">Aguardando ativação no loader</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Keys ativas</span></div><div class="stat-value" id="stat-active">â€”</div><div class="stat-note">LicenÃ§as vÃ¡lidas e nÃ£o banidas</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Keys expiradas</span></div><div class="stat-value" id="stat-expired">â€”</div><div class="stat-note">Prazo de validade encerrado</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Keys banidas</span></div><div class="stat-value" id="stat-banned">â€”</div><div class="stat-note">Acesso bloqueado</div></article>
+          <article class="stat-card"><div class="stat-head"><span>Trials usados</span></div><div class="stat-value" id="stat-trials">â€”</div><div class="stat-note">IPs registrados pelo Worker</div></article>
+          <article class="stat-card"><div class="stat-head"><span>CÃ³digos pendentes</span></div><div class="stat-value" id="stat-codes">â€”</div><div class="stat-note">Aguardando ativaÃ§Ã£o no loader</div></article>
         </div>
         <section class="panel">
-          <div class="panel-head"><div><h2>Ações rápidas</h2><p class="subheading">Atalhos para as tarefas mais usadas.</p></div></div>
+          <div class="panel-head"><div><h2>AÃ§Ãµes rÃ¡pidas</h2><p class="subheading">Atalhos para as tarefas mais usadas.</p></div></div>
           <div class="panel-body"><div class="quick-actions">
-            <button class="action-tile" type="button" data-page="create-key"><span><strong>Gerar uma key</strong><p>Criar uma licença para um produto.</p></span><span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12h14m-5.5-5.5L18.5 12 13 17.5"/></svg></span></button>
-            <button class="action-tile" type="button" data-page="create-code"><span><strong>Gerar um código</strong><p>Criar um código de ativação de uso único.</p></span><span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12h14m-5.5-5.5L18.5 12 13 17.5"/></svg></span></button>
+            <button class="action-tile" type="button" data-page="create-key"><span><strong>Gerar uma key</strong><p>Criar uma licenÃ§a para um produto.</p></span><span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12h14m-5.5-5.5L18.5 12 13 17.5"/></svg></span></button>
+            <button class="action-tile" type="button" data-page="create-code"><span><strong>Gerar um cÃ³digo</strong><p>Criar um cÃ³digo de ativaÃ§Ã£o de uso Ãºnico.</p></span><span class="action-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 12h14m-5.5-5.5L18.5 12 13 17.5"/></svg></span></button>
           </div></div>
         </section>
       </section>
 
       <section class="page" id="page-keys" aria-labelledby="page-title">
         <div class="section-heading">
-          <div><h2>Licenças registradas</h2><p class="subheading">Consulte, busque e altere o status das keys existentes.</p></div>
+          <div><h2>LicenÃ§as registradas</h2><p class="subheading">Consulte, busque e altere o status das keys existentes.</p></div>
         </div>
         <section class="panel">
-          <div class="panel-head"><div><h2>Lista de keys</h2><p class="subheading" id="keys-summary">Carregando dados do Worker…</p></div></div>
+          <div class="panel-head"><div><h2>Lista de keys</h2><p class="subheading" id="keys-summary">Carregando dados do Workerâ€¦</p></div></div>
           <div class="panel-body">
             <form class="toolbar" id="search-form">
               <input class="input" id="key-search" type="search" name="q" placeholder="Buscar por nota ou trecho do hash" aria-label="Buscar por nota ou trecho do hash">
@@ -281,17 +282,17 @@
               <button class="button secondary" type="button" id="clear-search">Limpar</button>
             </form>
           </div>
-          <div class="table-wrap"><table><thead><tr><th>Hash curto</th><th>Produto</th><th>Expiração</th><th>HWID</th><th>Nota</th><th>Status</th><th>Ação</th></tr></thead><tbody id="keys-tbody"><tr><td colspan="7" class="table-empty">Carregando keys…</td></tr></tbody></table></div>
+          <div class="table-wrap"><table><thead><tr><th>Hash curto</th><th>Produto</th><th>ExpiraÃ§Ã£o</th><th>HWID</th><th>Usuário</th><th>Nota</th><th>Status</th><th>AÃ§Ã£o</th></tr></thead><tbody id="keys-tbody"><tr><td colspan="8" class="table-empty">Carregando keysâ€¦</td></tr></tbody></table></div>
           <div class="table-foot"><span id="keys-count">0 registros</span><span>O painel exibe somente o identificador curto retornado pelo Worker.</span></div>
         </section>
       </section>
 
       <section class="page" id="page-create-key" aria-labelledby="page-title">
-        <div class="section-heading"><div><h2>Nova licença</h2><p class="subheading">A key é criada no navegador e enviada ao servidor apenas como hash SHA-256.</p></div></div>
+        <div class="section-heading"><div><h2>Nova licenÃ§a</h2><p class="subheading">A key Ã© criada no navegador e enviada ao servidor apenas como hash SHA-256.</p></div></div>
         <section class="panel form-panel">
-          <div class="panel-head"><div><h2>Dados da key</h2><p class="subheading">A chave completa não é armazenada pelo painel.</p></div></div>
+          <div class="panel-head"><div><h2>Dados da key</h2><p class="subheading">A chave completa nÃ£o Ã© armazenada pelo painel.</p></div></div>
           <div class="panel-body">
-            <p class="form-info">Copie a key assim que ela for criada. Ela será exibida somente nesta confirmação e desaparecerá ao sair desta tela.</p>
+            <p class="form-info">Copie a key assim que ela for criada. Ela serÃ¡ exibida somente nesta confirmaÃ§Ã£o e desaparecerÃ¡ ao sair desta tela.</p>
             <form id="create-key-form">
               <div class="form-grid">
                 <div class="field"><label for="key-product">Produto</label><select class="select" id="key-product" name="product" required><option value="paladins">Paladins</option></select></div>
@@ -304,42 +305,42 @@
               <div class="issued-label">KEY CRIADA</div>
               <p class="issued-value" id="issued-key-value"></p>
               <button class="button success" type="button" id="copy-key-button">Copiar key</button>
-              <p class="issued-warning">Esta é a única exibição da chave completa. Guarde-a agora; ela não será mostrada novamente.</p>
+              <p class="issued-warning">Esta Ã© a Ãºnica exibiÃ§Ã£o da chave completa. Guarde-a agora; ela nÃ£o serÃ¡ mostrada novamente.</p>
             </div>
           </div>
         </section>
       </section>
 
       <section class="page" id="page-create-code" aria-labelledby="page-title">
-        <div class="section-heading"><div><h2>Novo código de ativação</h2><p class="subheading">O código é de uso único e poderá ser ativado pelo cliente no loader.</p></div></div>
+        <div class="section-heading"><div><h2>Novo cÃ³digo de ativaÃ§Ã£o</h2><p class="subheading">O cÃ³digo Ã© de uso Ãºnico e poderÃ¡ ser ativado pelo cliente no loader.</p></div></div>
         <section class="panel form-panel">
-          <div class="panel-head"><div><h2>Dados do código</h2><p class="subheading">Somente o hash SHA-256 é enviado ao Worker.</p></div></div>
+          <div class="panel-head"><div><h2>Dados do cÃ³digo</h2><p class="subheading">Somente o hash SHA-256 Ã© enviado ao Worker.</p></div></div>
           <div class="panel-body">
-            <p class="form-info">Copie o código após a criação. O painel não salva o código completo e não poderá recuperá-lo depois.</p>
+            <p class="form-info">Copie o cÃ³digo apÃ³s a criaÃ§Ã£o. O painel nÃ£o salva o cÃ³digo completo e nÃ£o poderÃ¡ recuperÃ¡-lo depois.</p>
             <form id="create-code-form">
               <div class="form-grid">
                 <div class="field"><label for="code-product">Produto</label><select class="select" id="code-product" name="product" required><option value="paladins">Paladins</option></select></div>
-                <div class="field"><label for="code-days">Validade em dias após ativação</label><input class="input" id="code-days" name="days" type="number" min="1" max="36500" step="1" value="30" required></div>
+                <div class="field"><label for="code-days">Validade em dias apÃ³s ativaÃ§Ã£o</label><input class="input" id="code-days" name="days" type="number" min="1" max="36500" step="1" value="30" required></div>
                 <div class="field span-2"><label for="code-note">Nota interna</label><input class="input" id="code-note" name="note" type="text" maxlength="120" placeholder="venda-004" autocomplete="off"></div>
               </div>
-              <div class="form-actions"><button class="button secondary" type="reset">Limpar campos</button><button class="button" id="create-code-submit" type="submit">Gerar código</button></div>
+              <div class="form-actions"><button class="button secondary" type="reset">Limpar campos</button><button class="button" id="create-code-submit" type="submit">Gerar cÃ³digo</button></div>
             </form>
             <div class="issued-box hidden" id="issued-code-box" aria-live="polite">
-              <div class="issued-label">CÓDIGO CRIADO</div>
+              <div class="issued-label">CÃ“DIGO CRIADO</div>
               <p class="issued-value" id="issued-code-value"></p>
-              <button class="button success" type="button" id="copy-code-button">Copiar código</button>
-              <p class="issued-warning">Esta é a única exibição do código completo. Guarde-o agora; ele não será mostrado novamente.</p>
+              <button class="button success" type="button" id="copy-code-button">Copiar cÃ³digo</button>
+              <p class="issued-warning">Esta Ã© a Ãºnica exibiÃ§Ã£o do cÃ³digo completo. Guarde-o agora; ele nÃ£o serÃ¡ mostrado novamente.</p>
             </div>
           </div>
         </section>
       </section>
 
       <section class="page" id="page-trials" aria-labelledby="page-title">
-        <div class="section-heading"><div><h2>Histórico de trials</h2><p class="subheading">IPs que já utilizaram um trial, com data de registro.</p></div></div>
+        <div class="section-heading"><div><h2>HistÃ³rico de trials</h2><p class="subheading">IPs que jÃ¡ utilizaram um trial, com data de registro.</p></div></div>
         <section class="panel">
-          <div class="panel-head"><div><h2>IPs registrados</h2><p class="subheading" id="trials-summary">Carregando dados do Worker…</p></div></div>
-          <div class="table-wrap"><table><thead><tr><th>Endereço IP</th><th>Data e horário</th></tr></thead><tbody id="trials-tbody"><tr><td colspan="2" class="table-empty">Carregando trials…</td></tr></tbody></table></div>
-          <div class="table-foot"><span id="trials-count">0 registros</span><span>Dados fornecidos pelo Worker de autenticação.</span></div>
+          <div class="panel-head"><div><h2>IPs registrados</h2><p class="subheading" id="trials-summary">Carregando dados do Workerâ€¦</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>EndereÃ§o IP</th><th>Data e horÃ¡rio</th></tr></thead><tbody id="trials-tbody"><tr><td colspan="2" class="table-empty">Carregando trialsâ€¦</td></tr></tbody></table></div>
+          <div class="table-foot"><span id="trials-count">0 registros</span><span>Dados fornecidos pelo Worker de autenticaÃ§Ã£o.</span></div>
         </section>
       </section>
     </main>
@@ -408,27 +409,27 @@
       }
       function logout() {
         showAccess('');
-        toast('Sessão encerrada.', 'success');
+        toast('SessÃ£o encerrada.', 'success');
         accessInput.focus();
       }
       function unauthorized() {
         if (isLoggingOut) return;
-        // Token de 15 minutos expirou: a mensagem precisa dizer isso, senão o
+        // Token de 15 minutos expirou: a mensagem precisa dizer isso, senÃ£o o
         // operador acha que a senha parou de funcionar.
         const expirou = Boolean(sessionToken) && sessionExpiresAt > 0 && Date.now() >= sessionExpiresAt;
         adminSecret = '';
         sessionToken = '';
-        showAccess(expirou ? 'Sessão expirada. Entre novamente.' : 'Acesso negado.');
+        showAccess(expirou ? 'SessÃ£o expirada. Entre novamente.' : 'Acesso negado.');
       }
       function genericFailure(error) {
         const known = error && ['REQUEST_REJECTED', 'HTTP_FAILURE', 'UNAUTHORIZED', 'RANDOM_UNAVAILABLE', 'SHA_UNAVAILABLE', 'COPY_FAILED'].includes(error.message);
-        if (!known) toast('Não foi possível conectar ao Worker. Verifique a conexão e a configuração de CORS.', 'error');
+        if (!known) toast('NÃ£o foi possÃ­vel conectar ao Worker. Verifique a conexÃ£o e a configuraÃ§Ã£o de CORS.', 'error');
       }
       async function api(path, options = {}) {
         if (!adminSecret) throw new Error('UNAUTHORIZED');
         const method = options.method || 'GET';
-        // Token de sessão (TTL de 15 min) no lugar do segredo bruto. O segredo
-        // só é enviado uma vez, para /admin/session; depois disso quem trafega é
+        // Token de sessÃ£o (TTL de 15 min) no lugar do segredo bruto. O segredo
+        // sÃ³ Ã© enviado uma vez, para /admin/session; depois disso quem trafega Ã©
         // o token, que expira sozinho.
         const bearer = options.token || sessionToken;
         const headers = {};
@@ -451,25 +452,25 @@
           throw new Error('UNAUTHORIZED');
         }
         let data = null;
-        try { data = await response.json(); } catch (_) { /* resposta pode não conter JSON */ }
+        try { data = await response.json(); } catch (_) { /* resposta pode nÃ£o conter JSON */ }
         if (!response.ok) {
-          toast('O servidor não concluiu a solicitação.', 'error');
+          toast('O servidor nÃ£o concluiu a solicitaÃ§Ã£o.', 'error');
           throw new Error('HTTP_FAILURE');
         }
         if (data && data.ok === false) {
-          const message = (typeof data.message === 'string' && data.message.trim()) || (typeof data.error === 'string' && data.error.trim()) || 'O servidor recusou a operação.';
+          const message = (typeof data.message === 'string' && data.message.trim()) || (typeof data.error === 'string' && data.error.trim()) || 'O servidor recusou a operaÃ§Ã£o.';
           toast(message, 'error');
           throw new Error('REQUEST_REJECTED');
         }
         if (!data || data.ok !== true) {
-          toast('O servidor retornou uma resposta inválida.', 'error');
+          toast('O servidor retornou uma resposta invÃ¡lida.', 'error');
           throw new Error('HTTP_FAILURE');
         }
         return data;
       }
       async function testAuthentication(secret) {
         adminSecret = secret;
-        // O segredo NÃO é mais guardado: só serve para mintar o token.
+        // O segredo NÃƒO Ã© mais guardado: sÃ³ serve para mintar o token.
         safeStorageRemove(SECRET_STORAGE_KEY);
         try {
           sessionToken = '';
@@ -508,11 +509,11 @@
       }
       function showPage(page) {
         const titles = {
-          dashboard: ['VISÃO GERAL', 'Visão geral', 'Resumo das licenças e da atividade do loader.'],
-          keys: ['LICENÇAS', 'Licenças', 'Pesquise, consulte e gerencie as licenças cadastradas.'],
-          'create-key': ['LICENÇAS', 'Gerar key', 'Crie uma nova licença para o loader DROPS.'],
-          'create-code': ['ATIVAÇÃO', 'Gerar código', 'Crie um código de ativação de uso único.'],
-          trials: ['ATIVIDADE', 'Histórico de trials', 'Consulte os IPs registrados no sistema de trial.']
+          dashboard: ['VISÃƒO GERAL', 'VisÃ£o geral', 'Resumo das licenÃ§as e da atividade do loader.'],
+          keys: ['LICENÃ‡AS', 'LicenÃ§as', 'Pesquise, consulte e gerencie as licenÃ§as cadastradas.'],
+          'create-key': ['LICENÃ‡AS', 'Gerar key', 'Crie uma nova licenÃ§a para o loader DROPS.'],
+          'create-code': ['ATIVAÃ‡ÃƒO', 'Gerar cÃ³digo', 'Crie um cÃ³digo de ativaÃ§Ã£o de uso Ãºnico.'],
+          trials: ['ATIVIDADE', 'HistÃ³rico de trials', 'Consulte os IPs registrados no sistema de trial.']
         };
         if (!titles[page]) return;
         if (currentPage !== page) clearIssuedCredential();
@@ -543,7 +544,7 @@
       }
       function formatCount(value) {
         const n = Number(value);
-        return Number.isFinite(n) ? new Intl.NumberFormat('pt-BR').format(n) : '—';
+        return Number.isFinite(n) ? new Intl.NumberFormat('pt-BR').format(n) : 'â€”';
       }
       async function loadStats() {
         if (!adminSecret) return false;
@@ -553,7 +554,7 @@
       async function loadKeys() {
         if (!adminSecret) return;
         const body = $('#keys-tbody');
-        body.innerHTML = '<tr><td colspan="7" class="table-empty">Carregando keys…</td></tr>';
+        body.innerHTML = '<tr><td colspan="8" class="table-empty">Carregando keysâ€¦</td></tr>';
         try {
           let data;
           if (currentSearch.trim()) data = await api(`/admin/search?q=${encodeURIComponent(currentSearch.trim())}`);
@@ -563,30 +564,36 @@
           return true;
         } catch (error) {
           if (error.message !== 'UNAUTHORIZED' && error.message !== 'REQUEST_REJECTED' && error.message !== 'HTTP_FAILURE') {
-            body.innerHTML = '<tr><td colspan="7" class="table-empty">Não foi possível carregar as keys.</td></tr>';
+            body.innerHTML = '<tr><td colspan="8" class="table-empty">NÃ£o foi possÃ­vel carregar as keys.</td></tr>';
           } else if (error.message === 'HTTP_FAILURE') {
-            body.innerHTML = '<tr><td colspan="7" class="table-empty">Não foi possível carregar as keys.</td></tr>';
+            body.innerHTML = '<tr><td colspan="8" class="table-empty">NÃ£o foi possÃ­vel carregar as keys.</td></tr>';
           }
           genericFailure(error);
           return false;
         }
       }
+
+      function formatLastSeen(timestamp) {
+        const stamp = Number(timestamp);
+        if (!Number.isFinite(stamp) || stamp <= 0) return 'nunca';
+        return new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(stamp));
+      }
       function renderKeys(keys) {
         const body = $('#keys-tbody');
         body.replaceChildren();
         $('#keys-count').textContent = `${keys.length} ${keys.length === 1 ? 'registro' : 'registros'}`;
-        $('#keys-summary').textContent = currentSearch.trim() ? `Resultados para “${currentSearch.trim()}”.` : 'Até 100 registros recentes, conforme retorno do Worker.';
+        $('#keys-summary').textContent = currentSearch.trim() ? `Resultados para â€œ${currentSearch.trim()}â€.` : 'AtÃ© 100 registros recentes, conforme retorno do Worker.';
         if (!keys.length) {
           const row = document.createElement('tr');
           const cell = document.createElement('td');
-          cell.colSpan = 7;
+          cell.colSpan = 8;
           cell.className = 'table-empty';
           cell.textContent = currentSearch.trim() ? 'Nenhuma key encontrada para esta busca.' : 'Nenhuma key cadastrada.';
           row.appendChild(cell); body.appendChild(row); return;
         }
         keys.forEach(key => {
           const row = document.createElement('tr');
-          const hash = String(key.h ?? '—');
+          const hash = String(key.h ?? 'â€”');
           const banned = key.banned === true || key.banned === 1 || key.banned === 'true';
           const expires = Number(key.expires_at);
           const hasExpiration = Number.isFinite(expires) && expires > 0;
@@ -598,14 +605,16 @@
           const hashText = document.createElement('span'); hashText.className = 'mono'; hashText.textContent = hash;
           hashWrap.appendChild(hashText); hashCell.appendChild(hashWrap);
           row.appendChild(hashCell);
-          row.appendChild(textCell(key.product || '—'));
+          row.appendChild(textCell(key.product || 'â€”'));
 
           const expirationCell = document.createElement('td'); expirationCell.appendChild(renderExpiration(hasExpiration ? expires : null)); row.appendChild(expirationCell);
           const hwid = key.hwid ? String(key.hwid) : '';
-          const hwidCell = textCell(hwid ? (hwid.length > 12 ? `${hwid.slice(0, 8)}…` : hwid) : '—');
-          if (hwid) { hwidCell.title = 'HWID abreviado por segurança visual'; hwidCell.classList.add('mono'); }
+          const hwidCell = textCell(hwid ? (hwid.length > 12 ? `${hwid.slice(0, 8)}â€¦` : hwid) : 'â€”');
+          if (hwid) { hwidCell.title = 'HWID abreviado por seguranÃ§a visual'; hwidCell.classList.add('mono'); }
           row.appendChild(hwidCell);
-          const noteCell = textCell(key.note || '—'); noteCell.classList.add('table-note'); noteCell.title = String(key.note || ''); row.appendChild(noteCell);
+          const user = String(key.user || '—');
+          const userCell = textCell(user); userCell.classList.add('table-user'); if (key.user) { userCell.title = `Último acesso: ${formatLastSeen(key.last_seen)}`; } row.appendChild(userCell);
+          const noteCell = textCell(key.note || 'â€”'); noteCell.classList.add('table-note'); noteCell.title = String(key.note || ''); row.appendChild(noteCell);
 
           const statusCell = document.createElement('td');
           const badge = document.createElement('span'); badge.className = `status ${status[1]}`; badge.textContent = status[0]; statusCell.appendChild(badge); row.appendChild(statusCell);
@@ -626,17 +635,17 @@
       }
       function renderExpiration(timestamp) {
         const wrap = document.createElement('div'); wrap.className = 'expiration';
-        if (!timestamp) { const main = document.createElement('span'); main.textContent = '—'; wrap.appendChild(main); return wrap; }
+        if (!timestamp) { const main = document.createElement('span'); main.textContent = 'â€”'; wrap.appendChild(main); return wrap; }
         const date = new Date(timestamp);
         const main = document.createElement('span');
-        main.textContent = Number.isNaN(date.getTime()) ? 'Data inválida' : new Intl.DateTimeFormat('pt-BR').format(date);
+        main.textContent = Number.isNaN(date.getTime()) ? 'Data invÃ¡lida' : new Intl.DateTimeFormat('pt-BR').format(date);
         const rest = document.createElement('small');
         const remaining = Math.ceil((timestamp - Date.now()) / DAY_MS);
-        rest.textContent = remaining > 0 ? `${remaining} ${remaining === 1 ? 'dia restante' : 'dias restantes'}` : remaining === 0 ? 'Expira hoje' : `Expirada há ${Math.abs(remaining)} ${Math.abs(remaining) === 1 ? 'dia' : 'dias'}`;
+        rest.textContent = remaining > 0 ? `${remaining} ${remaining === 1 ? 'dia restante' : 'dias restantes'}` : remaining === 0 ? 'Expira hoje' : `Expirada hÃ¡ ${Math.abs(remaining)} ${Math.abs(remaining) === 1 ? 'dia' : 'dias'}`;
         wrap.append(main, rest); return wrap;
       }
       async function changeBanStatus(shortHash, isBanned) {
-        if (!shortHash || shortHash === '—') { toast('O identificador desta key não está disponível.', 'error'); return; }
+        if (!shortHash || shortHash === 'â€”') { toast('O identificador desta key nÃ£o estÃ¡ disponÃ­vel.', 'error'); return; }
         if (!isBanned && !window.confirm(`Tem certeza de que deseja banir a key ${shortHash}?`)) return;
         try {
           await api(isBanned ? '/admin/unban' : '/admin/ban', { method: 'POST', body: { hash: shortHash } });
@@ -647,7 +656,7 @@
       async function loadTrials() {
         if (!adminSecret) return;
         const body = $('#trials-tbody');
-        body.innerHTML = '<tr><td colspan="2" class="table-empty">Carregando trials…</td></tr>';
+        body.innerHTML = '<tr><td colspan="2" class="table-empty">Carregando trialsâ€¦</td></tr>';
         try {
           const data = await api('/admin/trials');
           const trials = Array.isArray(data.trials) ? data.trials.slice() : [];
@@ -661,14 +670,14 @@
           }
           trials.forEach(trial => {
             const row = document.createElement('tr');
-            const ip = textCell(trial.ip || '—'); ip.classList.add('trial-ip'); row.appendChild(ip);
+            const ip = textCell(trial.ip || 'â€”'); ip.classList.add('trial-ip'); row.appendChild(ip);
             const stamp = Number(trial.at);
-            const dateCell = textCell(Number.isFinite(stamp) && stamp > 0 ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date(stamp)) : '—');
+            const dateCell = textCell(Number.isFinite(stamp) && stamp > 0 ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date(stamp)) : 'â€”');
             row.appendChild(dateCell); body.appendChild(row);
           });
           return true;
         } catch (error) {
-          if (error.message !== 'UNAUTHORIZED' && error.message !== 'REQUEST_REJECTED') body.innerHTML = '<tr><td colspan="2" class="table-empty">Não foi possível carregar os trials.</td></tr>';
+          if (error.message !== 'UNAUTHORIZED' && error.message !== 'REQUEST_REJECTED') body.innerHTML = '<tr><td colspan="2" class="table-empty">NÃ£o foi possÃ­vel carregar os trials.</td></tr>';
           genericFailure(error);
           return false;
         }
@@ -711,7 +720,7 @@
       }
       async function createCredential(kind, form) {
         const submit = form.querySelector('button[type="submit"]');
-        const restore = setBusy(submit, true, kind === 'key' ? 'Gerando key' : 'Gerando código');
+        const restore = setBusy(submit, true, kind === 'key' ? 'Gerando key' : 'Gerando cÃ³digo');
         clearIssuedCredential();
         try {
           const formData = new FormData(form);
@@ -731,7 +740,7 @@
           form.reset();
           const daysInput = form.querySelector('input[name="days"]');
           if (daysInput) daysInput.value = '30';
-          toast(kind === 'key' ? 'Key criada e registrada.' : 'Código criado e registrado.', 'success');
+          toast(kind === 'key' ? 'Key criada e registrada.' : 'CÃ³digo criado e registrado.', 'success');
           if (kind === 'key') {
             currentSearch = '';
             $('#key-search').value = '';
@@ -740,8 +749,8 @@
             await loadStats();
           }
         } catch (error) {
-          if (error.message === 'RANDOM_UNAVAILABLE') toast('Este navegador não oferece geração criptográfica segura.', 'error');
-          else if (error.message === 'SHA_UNAVAILABLE') toast('Não foi possível calcular SHA-256 neste contexto do navegador.', 'error');
+          if (error.message === 'RANDOM_UNAVAILABLE') toast('Este navegador nÃ£o oferece geraÃ§Ã£o criptogrÃ¡fica segura.', 'error');
+          else if (error.message === 'SHA_UNAVAILABLE') toast('NÃ£o foi possÃ­vel calcular SHA-256 neste contexto do navegador.', 'error');
           genericFailure(error);
         } finally {
           restore();
@@ -762,9 +771,9 @@
             helper.remove();
             if (!copied) throw new Error('COPY_FAILED');
           }
-          toast(kind === 'key' ? 'Key copiada.' : 'Código copiado.', 'success');
+          toast(kind === 'key' ? 'Key copiada.' : 'CÃ³digo copiado.', 'success');
         } catch (_) {
-          toast('Não foi possível copiar automaticamente. Selecione o código exibido e copie manualmente.', 'error');
+          toast('NÃ£o foi possÃ­vel copiar automaticamente. Selecione o cÃ³digo exibido e copie manualmente.', 'error');
         }
       }
 
@@ -773,7 +782,7 @@
         const secret = accessInput.value;
         if (!secret) { setAccessError('Informe o segredo administrativo.'); return; }
         accessSubmit.disabled = true;
-        accessSubmit.textContent = 'Verificando…';
+        accessSubmit.textContent = 'Verificandoâ€¦';
         setAccessError('');
         await testAuthentication(secret);
         accessSubmit.disabled = false;
@@ -809,8 +818,8 @@
 
       const savedSecret = safeStorageGet(SECRET_STORAGE_KEY);
       if (savedSecret) {
-        // Sessões antigas guardavam o segredo. Não restauramos mais: o segredo
-        // não é persistido, então uma aba nova sempre começa no login.
+        // SessÃµes antigas guardavam o segredo. NÃ£o restauramos mais: o segredo
+        // nÃ£o Ã© persistido, entÃ£o uma aba nova sempre comeÃ§a no login.
         safeStorageRemove(SECRET_STORAGE_KEY);
       }
     })();
