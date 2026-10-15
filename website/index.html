@@ -353,6 +353,8 @@
       const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
       const DAY_MS = 86400000;
       let adminSecret = '';
+      let sessionToken = '';
+      let sessionExpiresAt = 0;
       let currentPage = 'dashboard';
       let currentCredential = '';
       let currentCredentialKind = '';
@@ -394,6 +396,8 @@
       function showAccess(message = '') {
         isLoggingOut = true;
         adminSecret = '';
+        sessionToken = '';
+        sessionExpiresAt = 0;
         safeStorageRemove(SECRET_STORAGE_KEY);
         appShell.classList.add('hidden');
         accessScreen.classList.remove('hidden');
@@ -409,7 +413,12 @@
       }
       function unauthorized() {
         if (isLoggingOut) return;
-        showAccess('Acesso negado.');
+        // Token de 15 minutos expirou: a mensagem precisa dizer isso, senão o
+        // operador acha que a senha parou de funcionar.
+        const expirou = Boolean(sessionToken) && sessionExpiresAt > 0 && Date.now() >= sessionExpiresAt;
+        adminSecret = '';
+        sessionToken = '';
+        showAccess(expirou ? 'Sessão expirada. Entre novamente.' : 'Acesso negado.');
       }
       function genericFailure(error) {
         const known = error && ['REQUEST_REJECTED', 'HTTP_FAILURE', 'UNAUTHORIZED', 'RANDOM_UNAVAILABLE', 'SHA_UNAVAILABLE', 'COPY_FAILED'].includes(error.message);
@@ -418,7 +427,13 @@
       async function api(path, options = {}) {
         if (!adminSecret) throw new Error('UNAUTHORIZED');
         const method = options.method || 'GET';
-        const headers = { 'x-admin': adminSecret };
+        // Token de sessão (TTL de 15 min) no lugar do segredo bruto. O segredo
+        // só é enviado uma vez, para /admin/session; depois disso quem trafega é
+        // o token, que expira sozinho.
+        const bearer = options.token || sessionToken;
+        const headers = {};
+        if (bearer) headers['Authorization'] = `Bearer ${bearer}`;
+        else headers['x-admin'] = adminSecret;
         const config = { method, headers, cache: 'no-store' };
         if (options.body !== undefined) {
           headers['Content-Type'] = 'application/json';
@@ -454,10 +469,20 @@
       }
       async function testAuthentication(secret) {
         adminSecret = secret;
-        safeStorageSet(SECRET_STORAGE_KEY, secret);
+        // O segredo NÃO é mais guardado: só serve para mintar o token.
+        safeStorageRemove(SECRET_STORAGE_KEY);
         try {
+          sessionToken = '';
+          sessionExpiresAt = 0;
+          // Troca o segredo por um token de 15 minutos.
+          const session = await api('/admin/session', {
+            method: 'POST',
+            body: { secret },
+            token: '',
+          });
+          sessionToken = session.token;
+          sessionExpiresAt = Number(session.expires_at) || 0;
           const data = await api('/admin/stats');
-          adminSecret = secret;
           accessScreen.classList.add('hidden');
           appShell.classList.remove('hidden');
           setAccessError('');
@@ -467,6 +492,8 @@
           await Promise.allSettled([loadKeys(), loadTrials()]);
           return true;
         } catch (error) {
+          adminSecret = '';
+          sessionToken = '';
           if (error.message === 'UNAUTHORIZED') {
             setAccessError('Acesso negado.');
           } else {
@@ -782,8 +809,9 @@
 
       const savedSecret = safeStorageGet(SECRET_STORAGE_KEY);
       if (savedSecret) {
-        accessInput.value = '';
-        testAuthentication(savedSecret);
+        // Sessões antigas guardavam o segredo. Não restauramos mais: o segredo
+        // não é persistido, então uma aba nova sempre começa no login.
+        safeStorageRemove(SECRET_STORAGE_KEY);
       }
     })();
   </script>
